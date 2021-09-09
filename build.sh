@@ -1,12 +1,14 @@
-#!/bin/bash
-DIST=hirsute
-WORKDIR=google-chrome-stable
-chmod 777 pkg2appimage.sh
-rm -Rf $WORKDIR
-rm -Rf google-chrome-stable_current_amd64.deb
-rm -Rf out
-rm google-chrome-latest.yml
-cp google-chrome-latest.yml.template google-chrome-latest.yml
-sed -i "s/DIST/$DIST/g" "google-chrome-latest.yml"
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O ./google-chrome-stable_current_amd64.deb
-./pkg2appimage.sh google-chrome-latest.yml
+app: google-chrome-stable
+binpatch: true
+
+ingredients:
+  dist: DIST
+  sources:
+    - deb http://archive.ubuntu.com/ubuntu/ DIST main universe
+  debs:
+    - ../google-chrome-stable_current_amd64.deb
+script:
+  - cp usr/share/applications/google-chrome.desktop .
+  - cp opt/google/chrome/product_logo_256.png .
+  - mv product_logo_256.png google-chrome.png
+  - cd usr/bin && rm google-chrome-stable && ln -s ../../opt/google/chrome/google-chrome google-chrome-stable
