@@ -12,3 +12,6 @@ cp google-chrome-latest.yml.template google-chrome-latest.yml
 sed -i "s/DIST/$DIST/g" "google-chrome-latest.yml"
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -O ./google-chrome-stable_current_amd64.deb
 ./pkg2appimage-1807-x86_64.AppImage google-chrome-latest.yml
+cd out
+OUTFILE=$(ls -1 *.AppImage)
+mv $OUTFILE google-chrome-latest.AppImage
